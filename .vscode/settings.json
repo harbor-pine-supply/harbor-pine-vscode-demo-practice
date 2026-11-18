@@ -5,7 +5,5 @@
   "files.trimTrailingWhitespace": true,
   "editor.tabSize": 2,
   "git.branchProtection": ["main"],
-  "git.branchProtectionPrompt": "alwaysPrompt",
-  // Claude Code panel: start every conversation in Manual mode
-  "claudeCode.initialPermissionMode": "default"
+  "git.branchProtectionPrompt": "alwaysPrompt"
 }
