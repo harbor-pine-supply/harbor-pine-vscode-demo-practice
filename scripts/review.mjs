@@ -17,8 +17,11 @@ if (!["plan", "merge"].includes(gate) || !planFile) {
 const run = (cmd, args) => spawnSync(cmd, args, { encoding: "utf8", maxBuffer: 16 * 1024 * 1024 });
 const parts = [`PLAN AND ACCEPTANCE CRITERIA (${planFile}):\n${readFileSync(planFile, "utf8")}`];
 if (gate === "merge") {
-  parts.push(`DIFF (git diff ${base}...HEAD):\n${run("git", ["diff", `${base}...HEAD`]).stdout}`);
-  const t = run(process.execPath, ["--test"]);
+  const d = run("git", ["diff", `${base}...HEAD`]);
+  // No evidence, no verdict: a failed or empty diff stops the review instead of reaching the reviewer
+  if (d.status !== 0 || !d.stdout.trim()) { console.error(`git diff ${base}...HEAD failed or is empty; nothing to review`); process.exit(1); }
+  parts.push(`DIFF (git diff ${base}...HEAD):\n${d.stdout}`);
+  const t = spawnSync("npm", ["test"], { encoding: "utf8", shell: process.platform === "win32", maxBuffer: 16 * 1024 * 1024 });
   parts.push(`TEST RESULTS (npm test, exit code ${t.status}):\n${t.stdout}${t.stderr}`);
 }
 
