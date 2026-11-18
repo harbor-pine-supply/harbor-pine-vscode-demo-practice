@@ -3,6 +3,18 @@ export function subtotal(lines) {
   return lines.reduce((sum, l) => sum + l.unitCents * l.qty, 0);
 }
 
+// Total number of items: the sum of qty over the lines. Each qty must be a
+// whole number of 1 or more; anything else (0, negative, 1.5, "2", missing)
+// throws a TypeError, as issue #2 asks.
+export function itemCount(lines) {
+  return lines.reduce((count, l) => {
+    if (!Number.isInteger(l.qty) || l.qty < 1) {
+      throw new TypeError("qty must be a whole number of 1 or more");
+    }
+    return count + l.qty;
+  }, 0);
+}
+
 export function formatCents(cents) {
   if (!Number.isInteger(cents)) throw new TypeError("cents must be an integer");
   const sign = cents < 0 ? "-" : "";
