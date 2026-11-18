@@ -1,0 +1,8 @@
+{
+  // Suggested to everyone who opens this repo
+  "recommendations": [
+    "anthropic.claude-code",
+    "github.vscode-pull-request-github",
+    "ms-vscode-remote.remote-containers"
+  ]
+}

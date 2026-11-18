@@ -1,0 +1,11 @@
+{
+  // The same tools for everyone, in a container: Node 22 and the GitHub CLI
+  "name": "Harbor & Pine orders",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": { "extensions": ["anthropic.claude-code"] }
+  }
+}

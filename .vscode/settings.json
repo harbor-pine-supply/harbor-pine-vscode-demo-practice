@@ -1,0 +1,9 @@
+{
+  // Shared settings for everyone who opens this repo (personal ones stay in your User settings)
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "editor.tabSize": 2,
+  "git.branchProtection": ["main"],
+  "git.branchProtectionPrompt": "alwaysPrompt"
+}
