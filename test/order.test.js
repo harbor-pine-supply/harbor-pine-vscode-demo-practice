@@ -1,6 +1,32 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { subtotal, formatCents, applyLoyaltyDiscount } from "../src/order.js";
+import { subtotal, itemCount, formatCents, applyLoyaltyDiscount } from "../src/order.js";
+
+test("itemCount of an empty order is 0", () => {
+  assert.equal(itemCount([]), 0);
+});
+
+test("itemCount of one line is its qty", () => {
+  assert.equal(itemCount([{ unitCents: 1299, qty: 2 }]), 2);
+});
+
+test("itemCount adds qty across several lines", () => {
+  assert.equal(
+    itemCount([
+      { unitCents: 1299, qty: 2 },
+      { unitCents: 450, qty: 1 },
+      { unitCents: 100, qty: 5 },
+    ]),
+    8,
+  );
+});
+
+test("itemCount rejects a qty that isn't a positive whole number", () => {
+  for (const qty of [0, -1, 1.5, "2", undefined]) {
+    assert.throws(() => itemCount([{ unitCents: 100, qty }]), TypeError, `qty ${String(qty)}`);
+  }
+  assert.throws(() => itemCount([{ unitCents: 100 }]), TypeError, "missing qty");
+});
 
 test("subtotal adds line totals in cents", () => {
   assert.equal(subtotal([{ unitCents: 1299, qty: 2 }, { unitCents: 450, qty: 1 }]), 3048);
